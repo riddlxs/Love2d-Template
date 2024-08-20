@@ -12,46 +12,39 @@ function love.errorhandler(msg)
     end
 end
 
-print("play test 01")
+local list_of_rectangles = {}
 
 function love.load()
-    circlexpos = 390
-    rectanglexpos = 400
-    rectangleypos = 400
-    circleypos = 290
-    moveSpeed = 100
-    move = true
+end 
+
+function createRect()
+
+    rect = {}
+    rect.width = 70
+    rect.height = 90
+    rect.x = 100
+    rect.y = 100
+    rect.speed = 100
+
+    table.insert(list_of_rectangles, rect)
 end
 
-function love.update(deltaTime)
-    --print(deltaTime)
-    --if love.keyboard.isDown("d") then
-    -- circlexpos = circlexpos + moveSpeed * deltaTime
-    -- end
-    -- if love.keyboard.isDown("a") then
-    --   circlexpos = circlexpos - moveSpeed * deltaTime
-    -- end
-    -- if love.keyboard.isDown("s") then
-    --    circleypos = circleypos + moveSpeed * deltaTime
-    -- end
-    -- if love.keyboard.isDown("w") then
-    --     circleypos = circleypos - moveSpeed * deltaTime
-    --  end
-    if love.keyboard.isDown("right") or love.keyboard.isDown("d") then
-        rectanglexpos = rectanglexpos + moveSpeed * deltaTime
-    end
-    if love.keyboard.isDown("left") or love.keyboard.isDown("a") then
-        rectanglexpos = rectanglexpos - moveSpeed * deltaTime
-    end
-    if love.keyboard.isDown("down") or love.keyboard.isDown("s") then
-        rectangleypos = rectangleypos + moveSpeed * deltaTime
-    end
-    if love.keyboard.isDown("up") or love.keyboard.isDown("w") then
-        rectangleypos = rectangleypos - moveSpeed * deltaTime
+function love.keypressed(key)
+    if key == "space" then
+        createRect()
     end
 end
+
+function love.update(dt)
+     for i,v in ipairs(list_of_rectangles) do
+     v.x = v.x +v.speed * dt
+     end
+    end
 
 function love.draw()
-    love.graphics.rectangle("line", rectanglexpos, rectangleypos, 200, 150)
+    --love.graphics.rectangle("line", rectanglexpos, rectangleypos, 200, 150)
     --love.graphics.circle("line", circlexpos, circleypos, 100)
+    for i=1, #list_of_rectangles do
+    love.graphics.rectangle("line", list_of_rectangles[i].x, list_of_rectangles[i].y , list_of_rectangles[i].width, list_of_rectangles[i].height)
+    end
 end
